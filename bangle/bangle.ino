@@ -67,27 +67,52 @@ void motor_setOnOff(int onOff)
 }
 
 /*
+ * Header of BEEP
+ */
+const int BEEP_PIN = 12;
+void beep_setup();
+void beep_setOnOff(int onOff);
+
+/*
+ * Implement of BEEP
+ */
+void beep_setup()
+{
+	pinMode(BEEP_PIN, OUTPUT); 
+}
+
+void beep_setOnOff(int onOff)
+{
+	digitalWrite(BEEP_PIN, onOff ? HIGH : LOW); // turns the motor On
+}
+
+/*
  * example
  */
 void setup() {
 	led_setup();
 	motor_setup();
+	beep_setup();
 }
 
 void loop() {
 	motor_setOnOff(1);
+	beep_setOnOff(0);
 	led_set_color(COLOR_RED);
 	delay(1000);
 
 	motor_setOnOff(0);
+	beep_setOnOff(1);
 	led_set_color(COLOR_GREEN);
 	delay(1000);
 
 	motor_setOnOff(1);
+	beep_setOnOff(0);
 	led_set_color(COLOR_BLUE);
 	delay(1000);
 
 	motor_setOnOff(0);
+	beep_setOnOff(1);
 	led_set_color(COLOR_RED | COLOR_GREEN);
 	delay(1000);
 
