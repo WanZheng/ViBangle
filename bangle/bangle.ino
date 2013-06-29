@@ -1,13 +1,14 @@
 /*
+ * Header of LED
+ */
+const int COLOR_RED = (1 << 0);
+const int COLOR_GREEN = (1 << 1);
+const int COLOR_BLUE = (1 << 2);
+void led_set_color(int color);
 
-  RGB_LED_Color_Fade_Cycle.pde
-  
-  Cycles through the colors of a RGB LED
-
-  Written for SparkFun Arduino Inventor's Kit CIRC-RGB
-
-*/
-
+/*
+ * Implement of LED
+ */
 // LED leads connected to PWM pins
 const int RED_LED_PIN = 9;
 const int GREEN_LED_PIN = 10;
@@ -18,41 +19,50 @@ int redIntensity = 0;
 int greenIntensity = 0;
 int blueIntensity = 0;
 
-// Length of time we spend showing each color
-const int DISPLAY_TIME = 100; // In milliseconds
+void led_setup() {
+	pinMode(RED_LED_PIN, OUTPUT);
+	pinMode(GREEN_LED_PIN, OUTPUT);
+	pinMode(BLUE_LED_PIN, OUTPUT);
+}
 
+void led_set_color(int color) {
+	int redIntensity = 255;
+	int greenIntensity = 255;
+	int blueIntensity = 255;
+
+	if (color & COLOR_RED) {
+		redIntensity = 0;
+	}
+	if (color & COLOR_GREEN) {
+		greenIntensity = 0;
+	}
+	if (color & COLOR_BLUE) {
+		blueIntensity = 0;
+	}
+
+        analogWrite(RED_LED_PIN, redIntensity);
+        analogWrite(GREEN_LED_PIN, greenIntensity);
+        analogWrite(BLUE_LED_PIN, blueIntensity);
+}
 
 void setup() {
-  // No setup required.
+	led_setup();
 }
 
+/*
+ * example
+ */
 void loop() {
-  // Cycle color from red through to green
-  // (In this loop we move from 100% red, 0% green to 0% red, 100% green)
-  for (greenIntensity = 0; greenIntensity <= 255; greenIntensity+=5) {
-        redIntensity = 255-greenIntensity;
-        analogWrite(GREEN_LED_PIN, greenIntensity);
-        analogWrite(RED_LED_PIN, redIntensity);
-        delay(DISPLAY_TIME);
-  }
-
-  // Cycle color from green through to blue
-  // (In this loop we move from 100% green, 0% blue to 0% green, 100% blue)  
-  for (blueIntensity = 0; blueIntensity <= 255; blueIntensity+=5) {
-        greenIntensity = 255-blueIntensity;
-        analogWrite(BLUE_LED_PIN, blueIntensity);
-        analogWrite(GREEN_LED_PIN, greenIntensity);
-        delay(DISPLAY_TIME);
-  }
-
-  // Cycle cycle from blue through to red
-  // (In this loop we move from 100% blue, 0% red to 0% blue, 100% red)    
-  for (redIntensity = 0; redIntensity <= 255; redIntensity+=5) {
-        blueIntensity = 255-redIntensity;
-        analogWrite(RED_LED_PIN, redIntensity);
-        analogWrite(BLUE_LED_PIN, blueIntensity);
-        delay(DISPLAY_TIME);
-  }
+	led_set_color(COLOR_RED);
+        delay(1000);
+	led_set_color(COLOR_GREEN);
+        delay(1000);
+	led_set_color(COLOR_BLUE);
+        delay(1000);
+	led_set_color(COLOR_RED | COLOR_GREEN);
+        delay(1000);
+	led_set_color(COLOR_GREEN | COLOR_BLUE);
+        delay(1000);
+	led_set_color(COLOR_BLUE | COLOR_RED);
+        delay(1000);
 }
-
-
