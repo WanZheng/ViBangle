@@ -1,6 +1,7 @@
 .idea
 bin
 gen
-.iml
-.apk
-.bak
+*.iml
+*.apk
+*.bak
+out
