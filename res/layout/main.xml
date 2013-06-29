@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center">
+
+    <com.vi.watchuchild.DrawableHolderView
+        android:id="@+id/canvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_monitor"
+        android:layout_above="@+id/start_discovery"/>
+
+    <ImageView
+        android:id="@+id/mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/alarm"
+        android:layout_marginBottom="80dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/info_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity"
-            />
-
-    <Button
-        android:id="@+id/start_rescovery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rescovery"/>
-</LinearLayout>
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_alignParentRight="true"
+        android:textSize="24dp"
+        android:text="测距功能未开启" />
+
+    <ToggleButton
+        android:id="@+id/start_discovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekbar"
+        android:textOff=""
+        android:textOn=""
+        android:layout_marginTop="25dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_power"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekbar"
+        android:max="50"
+        android:progress="30"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
 
