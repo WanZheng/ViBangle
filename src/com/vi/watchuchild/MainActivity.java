@@ -1,5 +1,6 @@
 package com.vi.watchuchild;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.bluetooth.BluetoothAdapter;
@@ -31,12 +32,13 @@ public class MainActivity extends RoboActivity implements SoundPool.OnLoadComple
 
     // bluetooth moudle.
     //public static final String SPY_KEY_ADDR = "00:13:EF:00:0E:7D";
+    public static final String SPY_KEY_ADDR = "00:13:EF:00:0D:38";
 
     // zidan
     //public static final String SPY_KEY_ADDR = "14:10:9F:F2:0E:F1";
 
     // my book
-    public static final String SPY_KEY_ADDR = "00:88:65:40:7D:0B";
+    //public static final String SPY_KEY_ADDR = "00:88:65:40:7D:0B";
     public static final int MAX_RSSI = 50;
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mHandler;
@@ -84,6 +86,27 @@ public class MainActivity extends RoboActivity implements SoundPool.OnLoadComple
         mFlicker.setDuration(450);
         mFlicker.setRepeatCount(ValueAnimator.INFINITE);
         mFlicker.setRepeatMode(ValueAnimator.REVERSE);
+        mFlicker.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mMark.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mMark.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mMark.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         setupViews();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -173,6 +196,10 @@ public class MainActivity extends RoboActivity implements SoundPool.OnLoadComple
         mRssi = 0;
         mCount = 0;
         updateStatictis();
+
+        // TODO: merge
+        pauseAlarm();
+        if (mFlicker.isRunning()) mFlicker.cancel();
     }
 
     private void playAlarm() {
@@ -250,17 +277,17 @@ public class MainActivity extends RoboActivity implements SoundPool.OnLoadComple
                                 playAlarm();
                             }
                             if (null != mHolder) mHolder.setVisibility(false);
-                            mMark.setVisibility(View.VISIBLE);
                             if (!mFlicker.isRunning()) mFlicker.start();
                         } else {
                             pauseAlarm();
                             if (null != mHolder) mHolder.setVisibility(true);
                             if (mFlicker.isRunning()) mFlicker.cancel();
-                            mMark.setVisibility(View.GONE);
                         }
 
                         if (mRunning) {
                             mBluetoothAdapter.startDiscovery();
+                        } else {
+                            if (null != mHolder) mHolder.setVisibility(false);
                         }
                     }
                 });
