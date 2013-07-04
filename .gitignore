@@ -5,3 +5,8 @@ gen
 *.apk
 *.bak
 out
+*.hex
+*.o
+.dep/
+.lib/
+*.swp
