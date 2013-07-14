@@ -55,24 +55,16 @@ void setup()
     beep_setup();
 
     connecting();
-    resetBluetooth();
+    do_connecting();
 } 
 
 void loop() 
 {
-    int bt_setuped = 1;
-
     while(1) {
         ping();
         if (get_bt_status() == 0) {
             alert();
-            if (bt_setuped == 0) {
-                resetBluetooth();
-                bt_setuped = 1;
-            }
-        }
-        else {
-            bt_setuped = 0;
+            do_connecting();
         }
 
         delay(1000);
@@ -115,9 +107,9 @@ void connecting()
     motor_setOnOff(0);
 }
 
-void resetBluetooth()
+void do_connecting()
 {
-    Serial.println("resetBluetooth!");
+    Serial.println("do_connecting!");
 
     setupBlueToothConnection();
     //wait 1s and flush the serial buffer
